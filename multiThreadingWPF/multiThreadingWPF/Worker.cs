@@ -24,25 +24,19 @@ namespace multiThreadingWPF
         private int lastRow;
 
 
+        /// <summary>
+        /// Cancels the processing of data from files
+        /// </summary>
         public void Cancel()
         {
             _cancelled = true;
         }
 
 
-        public void Work ()
-        {
-            for (int i=0; i<100; i++)
-            {
-                if (_cancelled)
-                    break;
-                Thread.Sleep(50);
-                ProcessChanged(i);
-            }
-            WorkCompleted(_cancelled);
-        }
-
-
+        /// <summary>
+        /// Reads data from a file with a list of potential customers
+        /// </summary>
+        /// <param name="fileName">Contains paths and names of incoming files (a list of customers and a black-list)  </param>
         public void ReadTheFile(object fileName)
         {
             ProcessChanged(0);
@@ -77,10 +71,14 @@ namespace multiThreadingWPF
             ObjWorkExcel.Quit(); 
             GC.Collect(); 
 
-            ProcessChanged(10);
+            ProcessChanged(10); 
         }
 
 
+        /// <summary>
+        /// Reads data from a file with a black-list
+        /// </summary>
+        /// <param name="fileName">Contains paths and names of incoming files (a list of customers and a black-list)  </param>
         public void ReadTheBlackList(object fileName)
         {
             StageChanged("Loading information from the blacklist");
@@ -116,6 +114,10 @@ namespace multiThreadingWPF
         }
 
 
+        /// <summary>
+        /// Writes results to a new excel file
+        /// </summary>
+        /// <param name="fileName"></param>
         public void WriteResultsIntoFile(object fileName)
         {
             if (_cancelled == false)
@@ -217,6 +219,10 @@ namespace multiThreadingWPF
         }
 
 
+        /// <summary>
+        /// Searches for potential customers in a black list and information about them
+        /// </summary>
+        /// <param name="fileName"></param>
         public void SearchTaxIdInBlackList(object fileName)
         {
 
@@ -252,6 +258,10 @@ namespace multiThreadingWPF
         }
 
 
+        /// <summary>
+        /// Searches for non-unique TAXIDs and information about them
+        /// </summary>
+        /// <param name="fileName"></param>
         public void SearchNotUniqTaxId(object fileName)
         {
             if (_cancelled == false)
@@ -299,6 +309,10 @@ namespace multiThreadingWPF
         }
 
 
+        /// <summary>
+        /// Validates TAXIDs 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void ValidationTaxId(object fileName)
         {
             if (_cancelled == false)
